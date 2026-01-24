@@ -55,6 +55,7 @@ public class CameraFragment extends Fragment {
     
     private PreviewView viewFinder;
     private MaterialButton captureButton;
+    private View loadingOverlay;
     private ProgressBar progressBar;
     private TextView statusText;
     
@@ -85,6 +86,7 @@ public class CameraFragment extends Fragment {
         
         viewFinder = view.findViewById(R.id.viewFinder);
         captureButton = view.findViewById(R.id.captureButton);
+        loadingOverlay = view.findViewById(R.id.loadingOverlay);
         progressBar = view.findViewById(R.id.progressBar);
         statusText = view.findViewById(R.id.statusText);
         
@@ -253,8 +255,7 @@ public class CameraFragment extends Fragment {
     }
 
     private void showLoading(boolean show) {
-        progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-        statusText.setVisibility(show ? View.VISIBLE : View.GONE);
+        loadingOverlay.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     private void showError(String message) {

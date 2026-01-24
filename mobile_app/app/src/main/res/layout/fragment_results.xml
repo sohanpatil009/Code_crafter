@@ -6,40 +6,83 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:background="@color/background_light"
     tools:context=".ui.ResultsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:padding="20dp">
 
+        <!-- Header Card with Image -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/imageCard"
             android:layout_width="0dp"
-            android:layout_height="250dp"
+            android:layout_height="280dp"
             android:layout_marginBottom="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="8dp"
+            app:strokeWidth="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <ImageView
-                android:id="@+id/capturedImage"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:contentDescription="@string/camera_title" />
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/capturedImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="@string/camera_title" />
+
+                <!-- Gradient Overlay -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:background="@drawable/gradient_background"
+                    android:alpha="0.8"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <!-- Analysis Complete Badge -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="@color/success"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="8dp"
+                        android:text="✓ Analyzed"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Disease Info Card -->
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/resultsCard"
+            android:id="@+id/diseaseCard"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="6dp"
+            app:strokeWidth="0dp"
+            app:cardBackgroundColor="@color/white"
             app:layout_constraintTop_toBottomOf="@id/imageCard"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -48,92 +91,138 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="24dp">
 
-                <TextView
-                    android:id="@+id/diseaseNameLabel"
-                    android:layout_width="wrap_content"
+                <!-- Disease Name with Icon -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/disease_name"
-                    android:textSize="14sp"
-                    android:textColor="@color/gray_medium" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/disease_name"
+                        android:textSize="12sp"
+                        android:textColor="@color/gray_medium"
+                        android:textAllCaps="true"
+                        android:letterSpacing="0.1" />
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/diseaseName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:textSize="24sp"
+                    android:layout_marginTop="8dp"
+                    android:textSize="28sp"
                     android:textStyle="bold"
-                    android:textColor="@color/green_primary"
+                    android:textColor="@color/green_dark"
+                    android:fontFamily="sans-serif-medium"
                     tools:text="Tomato Early Blight" />
 
-                <TextView
-                    android:id="@+id/confidenceLabel"
+                <!-- Confidence Badge -->
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="@string/confidence"
-                    android:textSize="14sp"
-                    android:textColor="@color/gray_medium" />
+                    android:background="@drawable/rounded_button"
+                    android:backgroundTint="@color/green_light"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="12dp"
+                    android:orientation="horizontal"
+                    android:gravity="center">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Confidence: "
+                        android:textSize="14sp"
+                        android:textColor="@color/green_dark"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/confidence"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/green_primary"
+                        tools:text="95.5%" />
+
+                </LinearLayout>
+
+                <!-- Divider -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="20dp"
+                    android:background="@color/gray_light" />
+
+                <!-- Description Section -->
                 <TextView
-                    android:id="@+id/confidence"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    tools:text="95.5%" />
-
-                <TextView
-                    android:id="@+id/descriptionLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:text="@string/description"
-                    android:textSize="14sp"
-                    android:textColor="@color/gray_medium" />
+                    android:textSize="12sp"
+                    android:textColor="@color/gray_medium"
+                    android:textAllCaps="true"
+                    android:letterSpacing="0.1" />
 
                 <TextView
                     android:id="@+id/description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:textSize="16sp"
-                    android:lineSpacingExtra="4dp"
+                    android:layout_marginTop="8dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/gray_dark"
+                    android:lineSpacingExtra="6dp"
                     tools:text="Early blight is a common disease affecting tomato plants..." />
 
+                <!-- Divider -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="20dp"
+                    android:background="@color/gray_light" />
+
+                <!-- Treatment Section -->
                 <TextView
-                    android:id="@+id/treatmentLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:text="@string/treatment"
-                    android:textSize="14sp"
-                    android:textColor="@color/gray_medium" />
+                    android:textSize="12sp"
+                    android:textColor="@color/gray_medium"
+                    android:textAllCaps="true"
+                    android:letterSpacing="0.1" />
 
                 <TextView
                     android:id="@+id/treatment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:textSize="16sp"
-                    android:lineSpacingExtra="4dp"
+                    android:layout_marginTop="8dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/gray_dark"
+                    android:lineSpacingExtra="6dp"
                     tools:text="Apply fungicide and remove infected leaves..." />
 
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Audio & Language Card -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/audioCard"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp"
-            app:layout_constraintTop_toBottomOf="@id/resultsCard"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="6dp"
+            app:strokeWidth="0dp"
+            app:cardBackgroundColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/diseaseCard"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -141,40 +230,82 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🔊 Audio Playback"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/green_dark" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/select_language"
+                    android:textSize="12sp"
+                    android:textColor="@color/gray_medium" />
 
                 <Spinner
                     android:id="@+id/languageSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="48dp" />
+                    android:layout_marginTop="12dp"
+                    android:minHeight="56dp"
+                    android:background="@drawable/rounded_button"
+                    android:backgroundTint="@color/gray_light"
+                    android:paddingHorizontal="16dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/playAudioButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="16dp"
                     android:text="@string/play_audio"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="@color/green_primary"
+                    app:cornerRadius="16dp"
                     app:icon="@android:drawable/ic_media_play"
-                    app:iconGravity="start" />
+                    app:iconGravity="textStart"
+                    app:iconSize="24dp"
+                    android:elevation="4dp" />
 
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/backButton"
+        <!-- Action Buttons -->
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:layout_marginBottom="16dp"
-            android:text="@string/back_to_camera"
-            app:icon="@android:drawable/ic_menu_camera"
-            app:iconGravity="start"
+            android:layout_marginBottom="24dp"
+            android:orientation="horizontal"
+            android:weightSum="1"
             app:layout_constraintTop_toBottomOf="@id/audioCard"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/backButton"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:text="@string/back_to_camera"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/green_accent"
+                app:cornerRadius="16dp"
+                app:icon="@android:drawable/ic_menu_camera"
+                app:iconGravity="textStart"
+                app:iconSize="24dp"
+                android:elevation="4dp" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
