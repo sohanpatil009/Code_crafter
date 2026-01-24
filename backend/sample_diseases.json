@@ -1,0 +1,130 @@
+{
+  "diseases": [
+    {
+      "name": "Tomato_Early_Blight",
+      "display_name": "Tomato Early Blight",
+      "description": "Early blight is a common fungal disease affecting tomato plants. It causes dark spots with concentric rings on leaves, leading to yellowing and defoliation. The disease thrives in warm, humid conditions and can significantly reduce yield if left untreated.",
+      "symptoms": [
+        "Dark brown spots with concentric rings on older leaves",
+        "Yellowing of leaves around spots",
+        "Leaf drop starting from bottom of plant",
+        "Stem lesions and fruit spots",
+        "Reduced plant vigor"
+      ],
+      "treatment": "Remove and destroy infected leaves immediately. Apply copper-based fungicide or chlorothalonil. Ensure proper plant spacing for air circulation. Avoid overhead watering. Rotate crops annually. Use disease-resistant varieties. Mulch around plants to prevent soil splash.",
+      "prevention": "Use disease-resistant varieties, practice crop rotation, avoid overhead watering, mulch around plants, maintain proper spacing, remove plant debris, and monitor regularly for early detection."
+    },
+    {
+      "name": "Tomato_Late_Blight",
+      "display_name": "Tomato Late Blight",
+      "description": "Late blight is a devastating disease caused by Phytophthora infestans. It causes water-soaked lesions on leaves and stems, leading to rapid plant death. Can destroy entire crops within days in favorable conditions.",
+      "symptoms": [
+        "Water-soaked spots on leaves",
+        "White fuzzy growth on leaf undersides",
+        "Brown lesions on stems",
+        "Firm brown spots on fruits",
+        "Rapid plant collapse"
+      ],
+      "treatment": "Apply fungicides containing mancozeb or chlorothalonil preventively. Remove infected plants immediately. Improve air circulation. Avoid working with wet plants. Use resistant varieties. Practice crop rotation. Destroy all infected plant material.",
+      "prevention": "Plant resistant varieties, ensure good drainage, avoid overhead irrigation, monitor weather for favorable disease conditions, apply preventive fungicides, and remove volunteer plants."
+    },
+    {
+      "name": "Tomato_Healthy",
+      "display_name": "Healthy Tomato Plant",
+      "description": "Healthy tomato plant with no visible disease symptoms. The plant shows normal growth patterns with vibrant green leaves and strong stem structure.",
+      "symptoms": [
+        "Green, vibrant leaves",
+        "Strong stem growth",
+        "No spots or discoloration",
+        "Normal fruit development",
+        "Good overall plant vigor"
+      ],
+      "treatment": "No treatment needed. Continue regular care and monitoring. Maintain proper watering, fertilization, and pest management practices.",
+      "prevention": "Maintain good cultural practices, proper watering, fertilization, pest management, and regular monitoring for early disease detection."
+    },
+    {
+      "name": "Potato_Early_Blight",
+      "display_name": "Potato Early Blight",
+      "description": "Early blight in potatoes is caused by Alternaria solani, affecting foliage and tubers. It reduces photosynthesis and can cause significant yield loss.",
+      "symptoms": [
+        "Brown spots with target-like rings on leaves",
+        "Yellowing and wilting of lower leaves",
+        "Reduced tuber size",
+        "Dark lesions on tubers",
+        "Premature defoliation"
+      ],
+      "treatment": "Apply fungicides containing chlorothalonil or mancozeb. Remove infected foliage. Ensure proper plant nutrition. Improve air circulation. Harvest tubers when fully mature.",
+      "prevention": "Use certified disease-free seed potatoes, practice crop rotation, maintain adequate soil fertility, ensure proper spacing, and remove plant debris."
+    },
+    {
+      "name": "Potato_Late_Blight",
+      "display_name": "Potato Late Blight",
+      "description": "Late blight affects potato plants causing dark lesions on leaves and tubers. The disease spreads rapidly in cool, wet conditions and can cause significant yield loss. This is the same pathogen that caused the Irish potato famine.",
+      "symptoms": [
+        "Water-soaked lesions on leaves",
+        "White mold on leaf undersides",
+        "Blackened stems",
+        "Brown rot in tubers",
+        "Foul odor from infected tubers"
+      ],
+      "treatment": "Apply protective fungicides before symptoms appear. Remove infected foliage immediately. Ensure good drainage. Harvest tubers when fully mature. Store in cool, dry conditions. Destroy all infected plant material.",
+      "prevention": "Plant resistant varieties, avoid overhead irrigation, monitor weather for favorable disease conditions, use certified seed potatoes, and practice good sanitation."
+    },
+    {
+      "name": "Potato_Healthy",
+      "display_name": "Healthy Potato Plant",
+      "description": "Healthy potato plant showing normal growth and development with no visible disease symptoms.",
+      "symptoms": [
+        "Lush green foliage",
+        "Strong plant structure",
+        "No disease symptoms",
+        "Good tuber formation",
+        "Normal plant vigor"
+      ],
+      "treatment": "No treatment required. Continue regular maintenance and monitoring practices.",
+      "prevention": "Follow good agricultural practices, proper watering, fertilization, and regular monitoring for early disease detection."
+    },
+    {
+      "name": "Corn_Common_Rust",
+      "display_name": "Corn Common Rust",
+      "description": "Common rust is a fungal disease caused by Puccinia sorghi, affecting corn leaves. It reduces photosynthesis but is usually not economically damaging unless severe.",
+      "symptoms": [
+        "Small, circular to elongate brown pustules on leaves",
+        "Pustules on both leaf surfaces",
+        "Yellowing of leaves",
+        "Reduced photosynthesis",
+        "Premature leaf death in severe cases"
+      ],
+      "treatment": "Apply fungicides if disease is severe and conditions favor development. Usually not economically damaging. Remove severely infected leaves if practical.",
+      "prevention": "Plant resistant hybrids, ensure proper plant spacing, practice crop rotation, and monitor weather conditions."
+    },
+    {
+      "name": "Corn_Gray_Leaf_Spot",
+      "display_name": "Corn Gray Leaf Spot",
+      "description": "Gray leaf spot is caused by Cercospora zeae-maydis, a serious corn disease that can cause significant yield loss in susceptible hybrids.",
+      "symptoms": [
+        "Rectangular gray to tan lesions on leaves",
+        "Lesions parallel to leaf veins",
+        "Severe leaf blight",
+        "Premature plant death",
+        "Reduced ear fill"
+      ],
+      "treatment": "Apply fungicides at early disease stages. Remove crop residue after harvest. Use resistant hybrids. Practice crop rotation.",
+      "prevention": "Use resistant hybrids, practice crop rotation, manage crop residue, ensure proper plant spacing, and apply fungicides preventively if needed."
+    },
+    {
+      "name": "Corn_Healthy",
+      "display_name": "Healthy Corn Plant",
+      "description": "Healthy corn plant with no disease symptoms, showing normal growth and development.",
+      "symptoms": [
+        "Dark green leaves",
+        "Strong stalk",
+        "Normal ear development",
+        "No lesions or spots",
+        "Good plant vigor"
+      ],
+      "treatment": "No treatment needed. Maintain regular care and monitoring practices.",
+      "prevention": "Continue good management practices, proper fertilization, irrigation, and regular scouting for pests and diseases."
+    }
+  ]
+}
