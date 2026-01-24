@@ -1,8 +1,10 @@
 package com.cropdetection.app.api;
 
 import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 
-public class DiseaseResult {
+public class DiseaseResult implements Serializable {
+    private static final long serialVersionUID = 1L;
     @SerializedName("disease_name")
     private String diseaseName;
     

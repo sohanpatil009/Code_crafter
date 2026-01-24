@@ -245,7 +245,7 @@ public class ResultsFragment extends Fragment {
         isPlaying = true;
         updatePlayButton();
         
-        view.postDelayed(() -> {
+        requireView().postDelayed(() -> {
             isPlaying = false;
             updatePlayButton();
         }, 3000);
