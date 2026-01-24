@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Crop Disease Detection</string>
+    
+    <!-- Navigation -->
+    <string name="nav_camera">Camera</string>
+    <string name="nav_results">Results</string>
+    
+    <!-- Camera Fragment -->
+    <string name="camera_title">Capture Crop Image</string>
+    <string name="capture_button">Capture</string>
+    <string name="camera_permission_required">Camera permission is required</string>
+    <string name="camera_permission_denied">Camera permission denied</string>
+    
+    <!-- Results Fragment -->
+    <string name="results_title">Detection Results</string>
+    <string name="disease_name">Disease:</string>
+    <string name="confidence">Confidence:</string>
+    <string name="description">Description:</string>
+    <string name="treatment">Treatment:</string>
+    <string name="play_audio">Play Audio</string>
+    <string name="stop_audio">Stop Audio</string>
+    <string name="select_language">Select Language</string>
+    <string name="analyzing">Analyzing image…</string>
+    <string name="upload_failed">Upload failed. Please try again.</string>
+    <string name="no_results">No results available</string>
+    <string name="back_to_camera">Back to Camera</string>
+    
+    <!-- Languages -->
+    <string name="lang_english">English</string>
+    <string name="lang_hindi">हिंदी (Hindi)</string>
+    <string name="lang_marathi">मराठी (Marathi)</string>
+    <string name="lang_tamil">தமிழ் (Tamil)</string>
+    <string name="lang_telugu">తెలుగు (Telugu)</string>
+    <string name="lang_gujarati">ગુજરાતી (Gujarati)</string>
+    <string name="lang_punjabi">ਪੰਜਾਬੀ (Punjabi)</string>
+    <string name="lang_bengali">বাংলা (Bengali)</string>
+    
+    <!-- Error Messages -->
+    <string name="error_network">Network error. Please check your connection.</string>
+    <string name="error_server">Server error. Please try again later.</string>
+    <string name="error_unknown">An unknown error occurred.</string>
+</resources>
