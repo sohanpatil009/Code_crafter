@@ -43,6 +43,9 @@ class Config:
         'bn': 'Bengali'
     }
     
+    # Auto-generate audio for predictions
+    AUTO_GENERATE_AUDIO = os.getenv('AUTO_GENERATE_AUDIO', 'False') == 'True'
+    
     # Disease classes (example - update based on your model)
     DISEASE_CLASSES = [
         'Tomato_Early_Blight',

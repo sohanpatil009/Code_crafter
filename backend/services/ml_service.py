@@ -93,7 +93,7 @@ class MLService:
             print(f"❌ Error extracting features: {e}")
             return {}
     
-    def predict(self, image_path: str) -> dict:
+    def predict(self, image_path: str, language: str = 'en') -> dict:
         """Predict disease from image with comprehensive analysis"""
         try:
             # Preprocess image for model
