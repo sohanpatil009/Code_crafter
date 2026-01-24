@@ -1,0 +1,225 @@
+{
+  "info": {
+    "name": "Crop Disease Detection API",
+    "description": "API collection for testing Crop Disease Detection backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/health",
+          "host": ["{{base_url}}"],
+          "path": ["api", "health"]
+        }
+      }
+    },
+    {
+      "name": "Predict Disease",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "image",
+              "type": "file",
+              "src": "/path/to/image.jpg"
+            },
+            {
+              "key": "language",
+              "value": "hi",
+              "type": "text"
+            },
+            {
+              "key": "user_id",
+              "value": "user123",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/api/predict",
+          "host": ["{{base_url}}"],
+          "path": ["api", "predict"]
+        }
+      }
+    },
+    {
+      "name": "Generate TTS Audio",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"text\": \"टमाटर में अर्ली ब्लाइट रोग पाया गया है\",\n  \"language\": \"hi\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/tts/generate",
+          "host": ["{{base_url}}"],
+          "path": ["api", "tts", "generate"]
+        }
+      }
+    },
+    {
+      "name": "Get Audio File",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/tts/audio/{{audio_filename}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "tts", "audio", "{{audio_filename}}"]
+        }
+      }
+    },
+    {
+      "name": "Translate Text",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"text\": \"Early blight disease detected\",\n  \"target_lang\": \"hi\",\n  \"source_lang\": \"en\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/translate",
+          "host": ["{{base_url}}"],
+          "path": ["api", "translate"]
+        }
+      }
+    },
+    {
+      "name": "Get Supported Languages",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/languages",
+          "host": ["{{base_url}}"],
+          "path": ["api", "languages"]
+        }
+      }
+    },
+    {
+      "name": "Set Language Preference",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": \"user123\",\n  \"language\": \"hi\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/language/preference",
+          "host": ["{{base_url}}"],
+          "path": ["api", "language", "preference"]
+        }
+      }
+    },
+    {
+      "name": "Get Prediction History",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/history?user_id=user123&limit=50",
+          "host": ["{{base_url}}"],
+          "path": ["api", "history"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "user123"
+            },
+            {
+              "key": "limit",
+              "value": "50"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get All Diseases",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/diseases",
+          "host": ["{{base_url}}"],
+          "path": ["api", "diseases"]
+        }
+      }
+    },
+    {
+      "name": "Get Disease Details",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/disease/Tomato_Early_Blight?language=hi",
+          "host": ["{{base_url}}"],
+          "path": ["api", "disease", "Tomato_Early_Blight"],
+          "query": [
+            {
+              "key": "language",
+              "value": "hi"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Submit Feedback",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"prediction_id\": \"123\",\n  \"feedback\": \"Correct prediction\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/feedback",
+          "host": ["{{base_url}}"],
+          "path": ["api", "feedback"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "audio_filename",
+      "value": "sample.mp3",
+      "type": "string"
+    }
+  ]
+}
