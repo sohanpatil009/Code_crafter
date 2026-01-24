@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Farm AI - Home</title>
+    <link rel="stylesheet" href="../components/glass_components.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg-primary);
+            min-height: 100vh;
+            padding-bottom: 100px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background Elements */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(154, 205, 50, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(244, 228, 77, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #F8FFF4 0%, #E8F5E8 100%);
+            z-index: -1;
+        }
+
+        .container {
+            padding: var(--space-lg);
+            max-width: 100%;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-xl);
+            padding-top: var(--space-lg);
+        }
+
+        .app-title {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .app-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .app-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: var(--space-sm);
+        }
+
+        /* Farm Overview Section */
+        .section {
+            margin-bottom: var(--space-xl);
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: var(--space-md);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .section-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+
+        .stat-card {
+            background: var(--glass-white);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            text-align: center;
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+        }
+
+        .stat-card.success::before {
+            background: var(--gradient-success);
+        }
+
+        .stat-card.warning::before {
+            background: var(--gradient-warning);
+        }
+
+        .stat-card.error::before {
+            background: var(--gradient-error);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: var(--space-xs);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--primary-olive);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Recent Scans */
+        .scan-item {
+            background: var(--glass-white);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-md);
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            transition: all var(--transition-normal);
+        }
+
+        .scan-item:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .scan-image {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .scan-info {
+            flex: 1;
+        }
+
+        .scan-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: var(--space-xs);
+        }
+
+        .scan-result {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-xs);
+        }
+
+        .result-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+
+        .result-icon.success {
+            background: var(--gradient-success);
+        }
+
+        .result-icon.warning {
+            background: var(--gradient-warning);
+        }
+
+        .result-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--primary-olive);
+        }
+
+        .scan-time {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .confidence-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            margin-top: var(--space-xs);
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: var(--gradient-success);
+            border-radius: var(--radius-full);
+            transition: width var(--transition-slow);
+        }
+
+        /* Quick Actions */
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-md);
+        }
+
+        .action-card {
+            background: var(--glass-white);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            text-align: center;
+            transition: all var(--transition-normal);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .action-card:hover::before {
+            left: 100%;
+        }
+
+        .action-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .action-card:active {
+            transform: scale(0.98);
+        }
+
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 auto var(--space-md);
+        }
+
+        .action-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: var(--space-xs);
+        }
+
+        .action-subtitle {
+            font-size: 12px;
+            color: var(--primary-olive);
+        }
+
+        /* Floating Action Button */
+        .fab-container {
+            position: fixed;
+            bottom: 100px;
+            right: var(--space-lg);
+            z-index: 100;
+        }
+
+        .fab-main {
+            width: 64px;
+            height: 64px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-full);
+            border: none;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .fab-main:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .fab-main:active {
+            animation: fabPulse 0.3s ease;
+        }
+
+        /* Weather Widget */
+        .weather-widget {
+            background: var(--glass-green);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(154, 205, 50, 0.3);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-lg);
+        }
+
+        .weather-info {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .weather-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .weather-details h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: var(--space-xs);
+        }
+
+        .weather-details p {
+            font-size: 14px;
+            color: var(--primary-olive);
+        }
+
+        .weather-temp {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 375px) {
+            .container {
+                padding: var(--space-md);
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .stat-value {
+                font-size: 24px;
+            }
+            
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="app-title">
+                <div class="app-icon">🌱</div>
+                <h1 class="app-name">Smart Farm AI</h1>
+            </div>
+            <div class="header-actions">
+                <button class="btn-icon">🔔</button>
+                <button class="btn-icon">⚙️</button>
+            </div>
+        </header>
+
+        <!-- Weather Widget -->
+        <div class="weather-widget">
+            <div class="weather-info">
+                <div class="weather-icon">☀️</div>
+                <div class="weather-details">
+                    <h3>Perfect Growing Weather</h3>
+                    <p>Sunny, Low humidity • Good for scanning</p>
+                </div>
+            </div>
+            <div class="weather-temp">24°C</div>
+        </div>
+
+        <!-- Farm Overview -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🌾</span>
+                Farm Overview
+            </h2>
+            <div class="stats-grid">
+                <div class="stat-card success">
+                    <div class="stat-value">85%</div>
+                    <div class="stat-label">Healthy</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Scanned</div>
+                </div>
+                <div class="stat-card error">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Alerts</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Scans -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="section-icon">📊</span>
+                Recent Scans
+            </h2>
+            
+            <div class="scan-item">
+                <div class="scan-image">🍃</div>
+                <div class="scan-info">
+                    <div class="scan-title">Tomato Leaf</div>
+                    <div class="scan-result">
+                        <div class="result-icon success">✓</div>
+                        <span class="result-text">Healthy - 94%</span>
+                    </div>
+                    <div class="confidence-bar">
+                        <div class="confidence-fill" style="width: 94%"></div>
+                    </div>
+                    <div class="scan-time">2 hours ago</div>
+                </div>
+            </div>
+
+            <div class="scan-item">
+                <div class="scan-image">🌿</div>
+                <div class="scan-info">
+                    <div class="scan-title">Potato Plant</div>
+                    <div class="scan-result">
+                        <div class="result-icon warning">⚠</div>
+                        <span class="result-text">Early Blight - 87%</span>
+                    </div>
+                    <div class="confidence-bar">
+                        <div class="confidence-fill" style="width: 87%; background: var(--gradient-warning);"></div>
+                    </div>
+                    <div class="scan-time">5 hours ago</div>
+                </div>
+            </div>
+
+            <div class="scan-item">
+                <div class="scan-image">🍀</div>
+                <div class="scan-info">
+                    <div class="scan-title">Corn Leaf</div>
+                    <div class="scan-result">
+                        <div class="result-icon success">✓</div>
+                        <span class="result-text">Healthy - 91%</span>
+                    </div>
+                    <div class="confidence-bar">
+                        <div class="confidence-fill" style="width: 91%"></div>
+                    </div>
+                    <div class="scan-time">1 day ago</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🎯</span>
+                Quick Actions
+            </h2>
+            <div class="actions-grid">
+                <div class="action-card" onclick="navigateToScan()">
+                    <div class="action-icon">📷</div>
+                    <div class="action-title">Scan Crop</div>
+                    <div class="action-subtitle">Detect diseases instantly</div>
+                </div>
+                
+                <div class="action-card" onclick="navigateToReports()">
+                    <div class="action-icon">📈</div>
+                    <div class="action-title">View Reports</div>
+                    <div class="action-subtitle">Analyze farm health</div>
+                </div>
+                
+                <div class="action-card" onclick="navigateToWeather()">
+                    <div class="action-icon">🌡️</div>
+                    <div class="action-title">Weather</div>
+                    <div class="action-subtitle">Check conditions</div>
+                </div>
+                
+                <div class="action-card" onclick="navigateToTips()">
+                    <div class="action-icon">💡</div>
+                    <div class="action-title">Farm Tips</div>
+                    <div class="action-subtitle">Expert advice</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Floating Action Button -->
+    <div class="fab-container">
+        <button class="fab-main" onclick="quickScan()">📷</button>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-item active">
+            <div class="nav-icon">🏠</div>
+            <div class="nav-label">Home</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">📷</div>
+            <div class="nav-label">Scan</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">📊</div>
+            <div class="nav-label">Reports</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">🌱</div>
+            <div class="nav-label">Plants</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">👤</div>
+            <div class="nav-label">Profile</div>
+        </div>
+    </nav>
+
+    <script>
+        // Navigation Functions
+        function navigateToScan() {
+            window.location.href = 'camera_screen.html';
+        }
+
+        function navigateToReports() {
+            console.log('Navigate to Reports');
+        }
+
+        function navigateToWeather() {
+            console.log('Navigate to Weather');
+        }
+
+        function navigateToTips() {
+            console.log('Navigate to Tips');
+        }
+
+        function quickScan() {
+            window.location.href = 'camera_screen.html';
+        }
+
+        // Add smooth animations on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.stat-card, .scan-item, .action-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+
+            // Animate confidence bars
+            setTimeout(() => {
+                const confidenceBars = document.querySelectorAll('.confidence-fill');
+                confidenceBars.forEach(bar => {
+                    const width = bar.style.width;
+                    bar.style.width = '0%';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 500);
+                });
+            }, 1000);
+        });
+
+        // Add navigation functionality
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
