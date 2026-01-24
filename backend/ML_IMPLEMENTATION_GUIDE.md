@@ -25,13 +25,14 @@ backend/
 │   ├── __init__.py
 │   ├── cnn_model.py        # CNN architectures and transfer learning
 │   ├── train.py            # Model training pipeline
-│   ├── evaluate.py         # Model evaluation (to be implemented)
-│   └── predict.py          # Model prediction (to be implemented)
+│   ├── evaluate.py         # Model evaluation (IMPLEMENTED)
+│   └── predict.py          # Model prediction (IMPLEMENTED)
 │
 ├── services/
 │   └── ml_service.py       # Updated ML service with advanced features
 │
 ├── demo_ml_pipeline.py     # Complete pipeline demonstration
+├── complete_ml_demo.py     # Comprehensive ML demo with training
 └── ML_IMPLEMENTATION_GUIDE.md  # This documentation
 ```
 
@@ -177,6 +178,45 @@ trainer.build_and_compile_model(architecture='resnet50')
 trainer.train_model(epochs=50, batch_size=32)
 ```
 
+#### ModelEvaluator (`models/evaluate.py`)
+- **Purpose**: Comprehensive model evaluation and performance analysis
+- **Features**:
+  - Detailed metrics calculation (precision, recall, F1-score, AUC)
+  - Confusion matrix and visualization
+  - Per-class performance analysis
+  - Confidence statistics and distribution
+  - Model comparison capabilities
+  - Comprehensive evaluation reports
+
+```python
+from models.evaluate import ModelEvaluator
+
+evaluator = ModelEvaluator(model_path='best_model.h5', class_names=classes)
+evaluator.load_model()
+results = evaluator.evaluate_on_dataset('data/test')
+evaluator.generate_evaluation_report('evaluation_results/')
+```
+
+#### ModelPredictor (`models/predict.py`)
+- **Purpose**: Advanced prediction with explanations and analysis
+- **Features**:
+  - Single and batch image prediction
+  - Confidence analysis and thresholding
+  - Feature extraction integration
+  - Prediction explanations and recommendations
+  - Caching for improved performance
+  - Comprehensive result analysis
+
+```python
+from models.predict import ModelPredictor
+
+predictor = ModelPredictor(model_path='best_model.h5', confidence_threshold=0.7)
+predictor.load_model()
+result = predictor.predict_with_explanation('test_image.jpg')
+print(f"Disease: {result['primary_prediction']['class_name']}")
+print(f"Confidence: {result['primary_prediction']['confidence_percentage']:.2f}%")
+```
+
 ## 🚀 Usage Examples
 
 ### Basic Image Processing
@@ -317,16 +357,21 @@ VALIDATION_SPLIT = 0.2
 ### Running the Demo
 ```bash
 cd backend
+
+# Basic pipeline demo (no training)
 python demo_ml_pipeline.py
+
+# Complete demo with training, evaluation, and prediction
+python complete_ml_demo.py
 ```
 
-This will test all components:
-- Image preprocessing
-- Leaf segmentation
-- Texture analysis
-- Feature extraction
-- CNN model creation
-- ML service integration
+The complete demo will:
+- Create synthetic dataset for testing
+- Demonstrate all preprocessing techniques
+- Test feature extraction methods
+- Build and train CNN models
+- Evaluate model performance
+- Make predictions with explanations
 
 ### Unit Testing
 Each module includes example usage and basic testing:
