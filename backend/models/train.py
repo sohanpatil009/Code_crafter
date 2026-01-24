@@ -301,12 +301,7 @@ class ModelTrainer:
             return False
     
     def evaluate_model(self) -> Dict[str, float]:
-        """
-        Evaluate model on test set
         
-        Returns:
-            Dictionary of evaluation metrics
-        """
         try:
             if self.cnn_model is None or self.X_test is None:
                 logger.error("Model or test data not available")
