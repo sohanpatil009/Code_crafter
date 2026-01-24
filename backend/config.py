@@ -43,17 +43,63 @@ class Config:
         'bn': 'Bengali'
     }
     
-    # Disease classes (example - update based on your model)
+    # Auto-generate audio for predictions
+    AUTO_GENERATE_AUDIO = os.getenv('AUTO_GENERATE_AUDIO', 'False') == 'True'
+    
+    # Disease classes - New Plant Diseases Dataset (38 classes)
     DISEASE_CLASSES = [
-        'Tomato_Early_Blight',
-        'Tomato_Late_Blight',
-        'Tomato_Healthy',
-        'Potato_Early_Blight',
-        'Potato_Late_Blight',
-        'Potato_Healthy',
-        'Corn_Common_Rust',
-        'Corn_Gray_Leaf_Spot',
-        'Corn_Healthy'
+        # Apple (4)
+        'Apple___Apple_scab',
+        'Apple___Black_rot',
+        'Apple___Cedar_apple_rust',
+        'Apple___healthy',
+        # Blueberry (1)
+        'Blueberry___healthy',
+        # Cherry (2)
+        'Cherry_(including_sour)___Powdery_mildew',
+        'Cherry_(including_sour)___healthy',
+        # Corn (4)
+        'Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot',
+        'Corn_(maize)___Common_rust_',
+        'Corn_(maize)___Northern_Leaf_Blight',
+        'Corn_(maize)___healthy',
+        # Grape (4)
+        'Grape___Black_rot',
+        'Grape___Esca_(Black_Measles)',
+        'Grape___Leaf_blight_(Isariopsis_Leaf_Spot)',
+        'Grape___healthy',
+        # Orange (1)
+        'Orange___Haunglongbing_(Citrus_greening)',
+        # Peach (2)
+        'Peach___Bacterial_spot',
+        'Peach___healthy',
+        # Pepper (2)
+        'Pepper,_bell___Bacterial_spot',
+        'Pepper,_bell___healthy',
+        # Potato (3)
+        'Potato___Early_blight',
+        'Potato___Late_blight',
+        'Potato___healthy',
+        # Raspberry (1)
+        'Raspberry___healthy',
+        # Soybean (1)
+        'Soybean___healthy',
+        # Squash (1)
+        'Squash___Powdery_mildew',
+        # Strawberry (2)
+        'Strawberry___Leaf_scorch',
+        'Strawberry___healthy',
+        # Tomato (10)
+        'Tomato___Bacterial_spot',
+        'Tomato___Early_blight',
+        'Tomato___Late_blight',
+        'Tomato___Leaf_Mold',
+        'Tomato___Septoria_leaf_spot',
+        'Tomato___Spider_mites Two-spotted_spider_mite',
+        'Tomato___Target_Spot',
+        'Tomato___Tomato_Yellow_Leaf_Curl_Virus',
+        'Tomato___Tomato_mosaic_virus',
+        'Tomato___healthy'
     ]
     
     @staticmethod

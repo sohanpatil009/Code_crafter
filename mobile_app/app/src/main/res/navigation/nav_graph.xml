@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/cameraFragment">
+
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.cropdetection.app.ui.CameraFragment"
+        android:label="@string/camera_title"
+        tools:layout="@layout/fragment_camera">
+        <action
+            android:id="@+id/action_camera_to_results"
+            app:destination="@id/resultsFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/resultsFragment"
+        android:name="com.cropdetection.app.ui.ResultsFragment"
+        android:label="@string/results_title"
+        tools:layout="@layout/fragment_results">
+        <action
+            android:id="@+id/action_results_to_camera"
+            app:destination="@id/cameraFragment"
+            app:popUpTo="@id/cameraFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+</navigation>

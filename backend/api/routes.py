@@ -28,10 +28,10 @@ def health_check():
 @log_request
 @error_handler
 def predict_disease():
-    """Upload image and get disease prediction"""
+    """Upload image and get disease prediction - Android app compatible format"""
     # Check if file is present
     if 'image' not in request.files:
-        return jsonify({'success': False, 'error': 'No image file provided'}), 400
+        return jsonify({'error': 'No image file provided'}), 400
     
     file = request.files['image']
     language = request.form.get('language', 'en')
@@ -40,12 +40,12 @@ def predict_disease():
     # Validate file
     is_valid, message = validate_image_file(file)
     if not is_valid:
-        return jsonify({'success': False, 'error': message}), 400
+        return jsonify({'error': message}), 400
     
     # Validate language
     is_valid, message = validate_language(language)
     if not is_valid:
-        return jsonify({'success': False, 'error': message}), 400
+        return jsonify({'error': message}), 400
     
     # Save uploaded file
     filename = f"{uuid.uuid4()}_{sanitize_filename(file.filename)}"
@@ -53,9 +53,9 @@ def predict_disease():
     file.save(filepath)
     
     # Make prediction
-    prediction_result = ml_service.predict(filepath)
+    prediction_result = ml_service.predict(filepath, language)
     if not prediction_result:
-        return jsonify({'success': False, 'error': 'Prediction failed'}), 500
+        return jsonify({'error': 'Prediction failed'}), 500
     
     # Get disease information
     disease_info = db_queries.get_disease_info(prediction_result['disease_name'])
@@ -70,7 +70,20 @@ def predict_disease():
     
     # Translate disease info if needed
     if language != 'en':
-        disease_info = translation_service.translate_disease_info(disease_info, language)
+        translated_info = translation_service.translate_disease_info(disease_info, language)
+        description = translated_info.get('description', disease_info['description'])
+        treatment = translated_info.get('treatment', disease_info['treatment'])
+    else:
+        description = disease_info.get('description', '')
+        treatment = disease_info.get('treatment', '')
+    
+    # Generate audio URL (optional - can be generated on demand)
+    audio_url = None
+    if Config.AUTO_GENERATE_AUDIO:
+        audio_text = f"{description}. {treatment}"
+        audio_filename = tts_service.generate_audio(audio_text, language)
+        if audio_filename:
+            audio_url = f"{request.host_url}api/tts/audio/{audio_filename}"
     
     # Save prediction record
     record = PredictionRecord(
@@ -82,24 +95,35 @@ def predict_disease():
     )
     prediction_id = db_queries.save_prediction(record)
     
+    # Clean up uploaded file
+    try:
+        os.remove(filepath)
+    except:
+        pass
+    
+    # Return response in Android app expected format
     return jsonify({
-        'success': True,
-        'prediction_id': prediction_id,
         'disease_name': prediction_result['disease_name'],
-        'confidence': prediction_result['confidence'],
-        'disease_info': disease_info,
-        'all_predictions': prediction_result['all_predictions']
-    })
+        'confidence': prediction_result['confidence'] / 100.0,  # Convert to 0-1 range
+        'description': description,
+        'treatment': treatment,
+        'audio_url': audio_url,
+        'language': language
+    }), 200
 
 @api.route('/tts/generate', methods=['POST'])
 @log_request
 @error_handler
 def generate_tts():
-    """Generate text-to-speech audio"""
-    data = request.get_json()
+    """Generate text-to-speech audio - supports both JSON and query params"""
+    # Support both JSON body and query parameters
+    if request.is_json:
+        data = request.get_json()
+    else:
+        data = request.args.to_dict()
     
     if not data or 'text' not in data:
-        return jsonify({'success': False, 'error': 'Text is required'}), 400
+        return jsonify({'error': 'Text is required', 'success': False}), 400
     
     text = data['text']
     language = data.get('language', 'hi')
@@ -107,27 +131,32 @@ def generate_tts():
     # Validate language
     is_valid, message = validate_language(language)
     if not is_valid:
-        return jsonify({'success': False, 'error': message}), 400
+        return jsonify({'error': message, 'success': False}), 400
     
     # Generate audio
     audio_filename = tts_service.generate_audio(text, language)
     if not audio_filename:
-        return jsonify({'success': False, 'error': 'Audio generation failed'}), 500
+        return jsonify({'error': 'Audio generation failed', 'success': False}), 500
+    
+    # Return response in Android app expected format
+    audio_url = f"{request.host_url}api/audio/generated/{audio_filename}"
     
     return jsonify({
+        'audio_url': audio_url,
+        'audio_id': audio_filename.replace('.mp3', ''),
         'success': True,
-        'audio_file': audio_filename,
-        'audio_url': f'/api/tts/audio/{audio_filename}'
-    })
+        'message': 'Audio generated successfully'
+    }), 200
 
 @api.route('/tts/audio/<filename>', methods=['GET'])
+@api.route('/audio/generated/<filename>', methods=['GET'])
 @log_request
 def get_audio(filename):
-    """Stream or download audio file"""
+    """Stream or download audio file - supports multiple URL formats"""
     filepath = tts_service.get_audio_path(filename)
     
     if not tts_service.audio_exists(filename):
-        return jsonify({'success': False, 'error': 'Audio file not found'}), 404
+        return jsonify({'error': 'Audio file not found'}), 404
     
     return send_file(filepath, mimetype='audio/mpeg')
 
@@ -164,10 +193,20 @@ def translate_text():
 @api.route('/languages', methods=['GET'])
 @log_request
 def get_languages():
-    """Get supported languages"""
+    """Get supported languages in format expected by Android app"""
+    languages = [
+        {"code": "en", "name": "English", "native_name": "English"},
+        {"code": "hi", "name": "Hindi", "native_name": "हिंदी"},
+        {"code": "mr", "name": "Marathi", "native_name": "मराठी"},
+        {"code": "ta", "name": "Tamil", "native_name": "தமிழ்"},
+        {"code": "te", "name": "Telugu", "native_name": "తెలుగు"},
+        {"code": "gu", "name": "Gujarati", "native_name": "ગુજરાતી"},
+        {"code": "pa", "name": "Punjabi", "native_name": "ਪੰਜਾਬੀ"},
+        {"code": "bn", "name": "Bengali", "native_name": "বাংলা"}
+    ]
     return jsonify({
         'success': True,
-        'languages': Config.SUPPORTED_LANGUAGES
+        'languages': languages
     })
 
 @api.route('/language/preference', methods=['POST'])
