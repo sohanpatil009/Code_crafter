@@ -1,127 +1,17 @@
 """
-Seed script to populate database with sample disease information
-Run this script to add initial disease data to the database
+Seed script to populate database with complete disease information for all 38 classes
+Run this script to add disease data from New Plant Diseases Dataset
 """
 
 from database.connection import db_manager
 from database.models import DiseaseInfo
 from database.queries import db_queries
-
-# Sample disease data
-DISEASE_DATA = [
-    {
-        'name': 'Tomato_Early_Blight',
-        'description': 'Early blight is a common tomato disease caused by the fungus Alternaria solani. It affects leaves, stems, and fruits.',
-        'symptoms': [
-            'Dark brown spots with concentric rings on older leaves',
-            'Yellowing of leaves around spots',
-            'Leaf drop starting from bottom of plant',
-            'Stem lesions and fruit spots'
-        ],
-        'treatment': 'Remove infected leaves, apply fungicides containing chlorothalonil or copper-based products. Improve air circulation.',
-        'prevention': 'Use disease-resistant varieties, practice crop rotation, avoid overhead watering, mulch around plants, and maintain proper spacing.'
-    },
-    {
-        'name': 'Tomato_Late_Blight',
-        'description': 'Late blight is a devastating disease caused by Phytophthora infestans. It can destroy entire crops quickly.',
-        'symptoms': [
-            'Water-soaked spots on leaves',
-            'White fuzzy growth on leaf undersides',
-            'Brown lesions on stems',
-            'Firm brown spots on fruits'
-        ],
-        'treatment': 'Remove and destroy infected plants immediately. Apply fungicides with mancozeb or chlorothalonil preventively.',
-        'prevention': 'Plant resistant varieties, ensure good drainage, avoid overhead irrigation, and monitor weather conditions.'
-    },
-    {
-        'name': 'Tomato_Healthy',
-        'description': 'Healthy tomato plant with no visible disease symptoms.',
-        'symptoms': [
-            'Green, vibrant leaves',
-            'Strong stem growth',
-            'No spots or discoloration',
-            'Normal fruit development'
-        ],
-        'treatment': 'No treatment needed. Continue regular care and monitoring.',
-        'prevention': 'Maintain good cultural practices, proper watering, fertilization, and pest management.'
-    },
-    {
-        'name': 'Potato_Early_Blight',
-        'description': 'Early blight in potatoes is caused by Alternaria solani, affecting foliage and tubers.',
-        'symptoms': [
-            'Brown spots with target-like rings on leaves',
-            'Yellowing and wilting of lower leaves',
-            'Reduced tuber size',
-            'Dark lesions on tubers'
-        ],
-        'treatment': 'Apply fungicides, remove infected foliage, and ensure proper plant nutrition.',
-        'prevention': 'Use certified disease-free seed potatoes, practice crop rotation, and maintain adequate soil fertility.'
-    },
-    {
-        'name': 'Potato_Late_Blight',
-        'description': 'Late blight in potatoes is caused by Phytophthora infestans, the same pathogen that caused the Irish potato famine.',
-        'symptoms': [
-            'Water-soaked lesions on leaves',
-            'White mold on leaf undersides',
-            'Blackened stems',
-            'Brown rot in tubers'
-        ],
-        'treatment': 'Destroy infected plants, apply protective fungicides, and harvest tubers carefully.',
-        'prevention': 'Plant resistant varieties, avoid overhead irrigation, and monitor weather for favorable disease conditions.'
-    },
-    {
-        'name': 'Potato_Healthy',
-        'description': 'Healthy potato plant showing normal growth and development.',
-        'symptoms': [
-            'Lush green foliage',
-            'Strong plant structure',
-            'No disease symptoms',
-            'Good tuber formation'
-        ],
-        'treatment': 'No treatment required. Continue regular maintenance.',
-        'prevention': 'Follow good agricultural practices and regular monitoring.'
-    },
-    {
-        'name': 'Corn_Common_Rust',
-        'description': 'Common rust is a fungal disease caused by Puccinia sorghi, affecting corn leaves.',
-        'symptoms': [
-            'Small, circular to elongate brown pustules on leaves',
-            'Pustules on both leaf surfaces',
-            'Yellowing of leaves',
-            'Reduced photosynthesis'
-        ],
-        'treatment': 'Apply fungicides if disease is severe. Usually not economically damaging.',
-        'prevention': 'Plant resistant hybrids, ensure proper plant spacing, and practice crop rotation.'
-    },
-    {
-        'name': 'Corn_Gray_Leaf_Spot',
-        'description': 'Gray leaf spot is caused by Cercospora zeae-maydis, a serious corn disease.',
-        'symptoms': [
-            'Rectangular gray to tan lesions on leaves',
-            'Lesions parallel to leaf veins',
-            'Severe leaf blight',
-            'Premature plant death'
-        ],
-        'treatment': 'Apply fungicides at early disease stages. Remove crop residue after harvest.',
-        'prevention': 'Use resistant hybrids, practice crop rotation, and manage crop residue.'
-    },
-    {
-        'name': 'Corn_Healthy',
-        'description': 'Healthy corn plant with no disease symptoms.',
-        'symptoms': [
-            'Dark green leaves',
-            'Strong stalk',
-            'Normal ear development',
-            'No lesions or spots'
-        ],
-        'treatment': 'No treatment needed. Maintain regular care.',
-        'prevention': 'Continue good management practices and regular scouting.'
-    }
-]
+from complete_disease_data import COMPLETE_DISEASE_INFO
 
 def seed_database():
-    """Seed database with disease information"""
-    print("🌱 Starting database seeding...")
+    """Seed database with all 38 disease classes"""
+    print("🌱 Starting database seeding with complete disease data...")
+    print(f"📊 Total classes to seed: {len(COMPLETE_DISEASE_INFO)}")
     
     try:
         # Get database connection
@@ -133,22 +23,46 @@ def seed_database():
         
         # Clear existing disease data (optional)
         if db_manager.db_type == 'mongodb':
-            db.diseases.delete_many({})
-            print("🗑️ Cleared existing disease data")
+            result = db.diseases.delete_many({})
+            print(f"🗑️  Cleared {result.deleted_count} existing disease records")
         
         # Insert disease data
         count = 0
-        for disease_data in DISEASE_DATA:
-            disease = DiseaseInfo(**disease_data)
-            result = db_queries.save_disease_info(disease)
-            if result:
+        for disease_key, disease_data in COMPLETE_DISEASE_INFO.items():
+            disease = DiseaseInfo(
+                name=disease_key,  # Use the class name as identifier
+                description=disease_data['description'],
+                symptoms=disease_data['symptoms'],
+                treatment=disease_data['treatment'],
+                prevention=disease_data['prevention']
+            )
+            
+            # Add additional fields
+            disease_dict = disease.to_dict()
+            disease_dict['display_name'] = disease_data['name']
+            disease_dict['crop'] = disease_data['crop']
+            
+            if db_manager.db_type == 'mongodb':
+                db.diseases.insert_one(disease_dict)
                 count += 1
-                print(f"✅ Added: {disease_data['name']}")
+                print(f"✅ Added: {disease_data['crop']} - {disease_data['name']}")
         
-        print(f"\n🎉 Successfully seeded {count} diseases!")
+        print(f"\n🎉 Successfully seeded {count} disease classes!")
+        print("\n📋 Summary by Crop:")
+        
+        # Print summary
+        crops = {}
+        for disease_data in COMPLETE_DISEASE_INFO.values():
+            crop = disease_data['crop']
+            crops[crop] = crops.get(crop, 0) + 1
+        
+        for crop, count in sorted(crops.items()):
+            print(f"   {crop}: {count} classes")
         
     except Exception as e:
         print(f"❌ Error seeding database: {e}")
+        import traceback
+        traceback.print_exc()
 
 if __name__ == '__main__':
     seed_database()
